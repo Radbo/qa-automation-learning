@@ -25,4 +25,4 @@ print(count_vowels(greetings_string))
 def formate_date(*, day: int, month: str) -> str:
     return f"Today {day} {month}"
 
-print(formate_date(day=15, month="October"))tou
+print(formate_date(day=15, month="October"))
