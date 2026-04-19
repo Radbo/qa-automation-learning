@@ -1,34 +1,46 @@
 balance = 0
 
+def integer_input_check(*, user_input: str):
+    if user_input.isdigit() and int(user_input) > 0:
+        return True, int(user_input)
+    return False, user_input
 
-def menu_number_navigation(*, current_choice: int, first_number_item: int, last_item_number: int):
-    number_of_menu_item = range(first_number_item, last_item_number + 1)
-    if current_choice not in list number_of_menu_item:
-        return print("Please enter a valid number")
+
+def menu_navigation(*, user_choice: str, first_menu_item_number: int, last_menu_item_number: int):
+    if user_choice.isdigit():
+        user_choice = int(user_choice)
+        if first_menu_item_number <= user_choice <= last_menu_item_number:
+            return True, user_choice
+        else:
+            return False, user_choice
     else:
-        return current_choice
+        return False, user_choice
 
 
-# def amount_verification(*, number: str) -> str, bool, int:
-#     if number.isdigit():
-#         number = int(number)
-#         if number < 0:
-#             return print("Please enter a positive number")
-#         else:
-#             return number
-#     else:
-#         return print("Please enter a number")
+def balance_checker():
+    return balance
 
 
-# def making_a_deposit(*, amount: int) -> int:
-#     return balance += amount
+def deposit_maker(*, amount: str):
+    integer_input_check_success, user_amount = integer_input_check(user_input = amount)
+    if integer_input_check_success:
+        global balance 
+        balance += user_amount
+        return True, balance
+    else:
+        return False, balance
 
-# def making_a_withdraw(*, amount: int) -> int:
-#     return balance -= amount
-
-# def checking_balance(*, coomand: bool) -> int:
-#     return print(balance)
-
+def withdraw_maker(*, amount: str):
+    integer_input_check_success, user_withdraw = integer_input_check(user_input = amount)
+    if integer_input_check_success:
+        global balance 
+        if user_withdraw > balance:
+            return False, balance
+        else:
+            balance -= user_withdraw
+            return True, balance
+    else:
+        return None, balance
 
 while True:
     print("================")
@@ -38,29 +50,32 @@ while True:
     print("4. Exit")
     print("================")
     user_choice = (input("Select a menu item by entering its number: "))
-    print(menu_number_navigation(current_choice=user_choice, first_number_item: 1, last_item_number: 4))
-
-
-    
-    # if user_choice == 2:
-    #     user_amount = (input("Enter the amount: "))
-    #     if not amount_verification(user_amount):
-    #         print("You entered an incorrect value")
-    #         print("================")
-    #     user_amount = int(user_amount)
-    #     balance += user_amount
-
-    # if user_choice == 3:
-    #     user_withdraw = (input("Enter the amount: "))
-    #     if not amount_verification(user_withdraw):
-    #         print("You entered an incorrect value")
-    #         print("================")
-    #     user_withdraw = int(user_withdraw)
-    #     if user_withdraw > balance:
-    #         print("There are not enough funds in your account.")
-    #         print("================")
-    #     else:
-    #         balance -= user_withdraw
-    
-    # if user_choice == 4:
-    #     break
+    print("================")
+    menu_navigation_success, user_choice = menu_navigation(user_choice = user_choice, first_menu_item_number = 1, last_menu_item_number = 4)
+    if menu_navigation_success:
+        if user_choice == 1:
+            print("Balance")
+            print(f"Your balance is: {balance_checker()}")
+        elif user_choice == 2:
+            print("Deposit")
+            user_amount = (input("Enter the deposit amount: "))
+            deposit_maker_success, user_amount = deposit_maker(amount = user_amount)
+            if deposit_maker_success:
+                print("The deposit has been accepted.")
+            else:
+                print("Incorrect entered value!") 
+        elif user_choice == 3:
+            print("Withdraw")
+            user_withdraw_amount = (input("Enter the withdraw amount: "))
+            user_withdraw_amount_success, user_withdraw_amount = withdraw_maker(amount = user_withdraw_amount)
+            if user_withdraw_amount_success is None:
+                print("Incorrect entered value!")
+            elif user_withdraw_amount_success:
+                print("The withdraw has been accepted.")
+            else:
+                print("There are insufficient funds in your account")
+        elif user_choice == 4: 
+            print("Exit")
+            break
+    else:
+        print("Incorrect entered value!") 
