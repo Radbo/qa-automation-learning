@@ -1,14 +1,11 @@
-# Task: Sum of the digits of a number
-# input: The user enters a positive number.
-# output: Find the sum of its digits using a while loop.
+def sum_of_digits(*, number: int) -> int:
+    total = 0
+    number = abs(number)
+    while number > 0:
+        total += number % 10
+        number //=  10 
+    return total
 
-user_number = int(input("Enter positive number: "))
-digit = 0
-sum_of_digits = 0
-
-while user_number > 0:
-    digit = user_number % 10
-    sum_of_digits += digit
-    user_number = user_number // 10
-
-print(sum_of_digits)
+user_number = int(input("Enter a number: "))
+result = sum_of_digits(number = user_number)
+print(result)

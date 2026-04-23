@@ -1,16 +1,14 @@
-# user_number = str(input("Enter a positive integer: "))
-# counter = 0
+def count_digits(*, number: int) -> int:
+    counter = 1
+    number = abs(number)
 
-# for letter in user_number:
-#     counter += 1
+    while number >= 10:
+        number //= 10
+        counter += 1
+    
+    return counter
 
-# print(counter)
 
-user_number = int(input("Enter a positive integer: "))
-counter = 1
-
-while user_number >= 10:
-    user_number = user_number // 10
-    counter += 1
-
-print(counter)
+user_number = int(input("Enter a number: "))
+result = count_digits(number = user_number)
+print(result)
