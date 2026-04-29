@@ -1,0 +1,16 @@
+import requests
+import json
+import time
+
+url = 'https://api.binance.com/api/v3/ticker/price'
+
+bitcoin_prices = []
+for i in range(30):
+    response = requests.get(url, params={'symbol':'BTCUSDT'})
+    price = float(response.json()['price'])
+    bitcoin_prices.append(price)
+    print(f"Iteration number: {i}")
+    time.sleep(1)
+
+print(bitcoin_prices)
+
