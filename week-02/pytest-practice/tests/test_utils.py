@@ -1,3 +1,5 @@
+import pytest
+
 from utils import add
 from utils import divide
 
@@ -26,5 +28,7 @@ def test_divide_positive_and_negative_numbers():
     assert divide(10, -5) == -2.0
 
 
-def test_divide_positive_and_zero_numbers():
-    assert divide(10, 0) == 0
+def test_divide_by_zero():
+    with pytest.raises(ValueError):
+        divide(10, 0)
+
