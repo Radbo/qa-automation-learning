@@ -1,7 +1,6 @@
 import pytest
 
-from utils import add
-from utils import divide
+from week_02.pytest_practice.utils import add, divide
 
 
 def test_add_positive_numbers():
