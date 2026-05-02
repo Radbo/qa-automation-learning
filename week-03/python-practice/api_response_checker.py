@@ -1,10 +1,9 @@
 import requests
-import json
 
 url = "https://jsonplaceholder.typicode.com/users"
 
 
-def api_responce(url: str) -> tuple[int, list, type]:
+def api_response(url: str) -> tuple[int, list, type]:
     response = requests.get(url)
     response_code = response.status_code
     response_content_json = response.json()
@@ -51,7 +50,7 @@ def username_checker(user: dict) -> tuple[bool, str]:
         return True, "username is valid"
 
 
-def user_email_cheker(user: dict) -> tuple[bool, str]:
+def user_email_checker(user: dict) -> tuple[bool, str]:
     user_email = user.get("email")
 
     if user_email == None:
@@ -91,7 +90,7 @@ def user_data_valid_checker(users: list) -> tuple[int, int, list]:
         id_valid_status, id_valid_description = user_id_checker(user)
         name_valid_status, name_valid_description = user_name_checker(user)
         username_valid_status, username_valid_description = username_checker(user)
-        email_valid_status, email_valid_description = user_email_cheker(user)
+        email_valid_status, email_valid_description = user_email_checker(user)
 
         if not id_valid_status:
             id_error = {}
@@ -120,7 +119,7 @@ def user_data_valid_checker(users: list) -> tuple[int, int, list]:
     return checked_users, len(errors), errors
 
 
-def print_report(*, response_code: str, response_type: type, checked_users: int, errors_counted: int, errors_list: list):
+def print_report(*, response_code: int, response_type: type, checked_users: int, errors_counted: int, errors_list: list):
     print("API Response Checker\n")
     print(f"Status code: {response_code}")
     print(f"Response type: {response_type}")
@@ -135,14 +134,14 @@ def print_report(*, response_code: str, response_type: type, checked_users: int,
             print(f"{error.get('user_id')}: {error.get('error')}")
 
 
-api_response_code, api_responce_content_json, api_responce_type = api_responce(url)
+api_response_code, api_response_content_json, api_response_type = api_response(url)
 
 if api_response_code != 200:
     print(f"api response code is {api_response_code}")
-if api_responce_type != list:
+elif api_response_type != list:
     print("Incorrect api response type")
-if  len(api_responce_content_json) == 0:
+elif not api_response_content_json:
     print("No users found")
 else: 
-    checked_users, errors_counter, errors_list = user_data_valid_checker(api_responce_content_json)
-    print_report(response_code=api_response_code, response_type=api_responce_type, checked_users=checked_users, errors_counted=errors_counter, errors_list=errors_list)
+    checked_users, errors_counter, errors_list = user_data_valid_checker(api_response_content_json)
+    print_report(response_code=api_response_code, response_type=api_response_type, checked_users=checked_users, errors_counted=errors_counter, errors_list=errors_list)
